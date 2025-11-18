@@ -103,9 +103,7 @@
             text-align: left;
         }
 
-        .text-right {
-            text-align: right;
-        }
+  "
 
         .font-bold {
             font-weight: 700;
@@ -664,6 +662,30 @@
                 flex-shrink: 0;
             }
             
+				       <div class="card p-2 bg-primary/5 mb-1">
+                <h3 class="font-semibold text-sm mb-1 text-center">📐 Fizik Formülleri</h3>
+                <div class="grid md:grid-cols-2 gap-3 text-sm max-w-xl mx-auto">
+                    <div class="text-center">
+                        <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm">
+                            İş (W) = m × g × h
+                        </p>
+                        <p class="text-muted-foreground mt-1 text-xs">
+                            Kütle × Yerçekimi × Yükseklik
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm">
+                            Güç (P) = W / t
+                        </p>
+                        <p class="text-muted-foreground mt-1 text-xs">
+                            İş / Zaman
+                        </p>
+                    </div>
+                </div>
+            </div>	
+			
+			
+			
             /* Parametre kartı kompakt */
             .card.p-2 { padding: 0.5rem; }
             .space-y-2 > * + * { margin-top: 0.5rem; }
@@ -902,31 +924,32 @@
                 </div>
             </div>
 
-            <!-- Formüller -->
-            <div class="card p-2 bg-primary/5 mb-1">
-                <h3 class="font-semibold text-sm mb-1 text-center">📐 Fizik Formülleri</h3>
-                <div class="grid md:grid-cols-2 gap-3 text-sm max-w-xl mx-auto">
-                    <div class="text-center">
-                        <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm">
-                            İş (W) = m × g × h
-                        </p>
-                        <p class="text-muted-foreground mt-1 text-xs">
-                            Kütle × Yerçekimi × Yükseklik
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm">
-                            Güç (P) = W / t
-                        </p>
-                        <p class="text-muted-foreground mt-1 text-xs">
-                            İş / Zaman
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+           <!-- Formüller -->
+<div class="card p-2 bg-primary/5 mb-1">
+  <h3 class="font-semibold text-sm mb-1 text-center">📐 Fizik Formülleri</h3>
+
+  <div class="grid md:grid-cols-2 gap-3 text-sm max-w-xl mx-auto">
+    <div class="text-center">
+      <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm">
+        İş (W) = m × g × h
+      </p>
+      <p class="text-muted-foreground mt-1 text-xs">
+        Kütle × Yerçekimi × Yükseklik
+      </p>
     </div>
 
+    <!-- SAĞ SÜTUN -->
+    <div class="text-right">
+      <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm inline-block">
+        Güç (P) = W / t
+      </p>
+      <p class="text-muted-foreground mt-1 text-xs">
+        İş / Zaman
+      </p>
+    </div>
+  </div>
+</div>
+</div>
     <!-- Mobil Sonuç Butonu -->
     <button class="btn btn-primary" style="padding: 0.5rem 0; display: none;" id="show-results-btn">
         Sonuçları Gör

@@ -1,0 +1,1677 @@
+<html lang="tr"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Güç ve Enerji Simülasyonu - Fizik Eğitimi</title>
+    <meta name="description" content="İş, enerji ve güç kavramlarını interaktif animasyonlarla öğrenin. Aynı işi farklı sürede yapmanın güce etkisini keşfedin.">
+    <meta name="author" content="Cresas - Emre">
+    <meta name="keywords" content="fizik, güç, enerji, iş, simülasyon, eğitim, interaktif">
+    
+    <style>
+        /* CSS Variables for theme */
+        :root {
+            color-scheme: light dark;
+            --background: 210 40% 98%;
+            --foreground: 222 84% 4%;
+            --card: 0 0% 100%;
+            --card-foreground: 222 84% 4%;
+            --primary: 221 83% 53%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222 84% 4%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215 16% 47%;
+            --accent: 142 76% 36%;
+            --accent-foreground: 144 70% 13%;
+            --destructive: 0 84% 60%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214 32% 91%;
+            --input: 214 32% 91%;
+            --ring: 221 83% 53%;
+            --radius: 0.75rem;
+            --chart-1: 221 83% 53%;
+            --chart-2: 142 76% 36%;
+            --chart-3: 31 97% 72%;
+            --chart-4: 262 83% 58%;
+            --chart-5: 340 82% 52%;
+            --bg-gradient: radial-gradient(circle at top, #ffffff, #e5e7eb);
+            --building: 30 20% 85%;
+            --stairs: 25 15% 75%;
+        }
+
+        [data-theme="dark"] {
+            color-scheme: dark;
+            --background: 222 47% 11%;
+            --foreground: 213 31% 91%;
+            --muted: 217 19% 27%;
+            --muted-foreground: 215 20% 65%;
+            --accent: 142 76% 36%;
+            --accent-foreground: 144 70% 13%;
+            --border: 217 19% 27%;
+            --card: 222 47% 13%;
+            --card-foreground: 213 31% 91%;
+            --ring: 221 83% 69%;
+            --destructive: 0 63% 31%;
+            --destructive-foreground: 210 40% 98%;
+            --chart-1: 221 83% 75%;
+            --chart-2: 142 76% 65%;
+            --chart-3: 31 97% 72%;
+            --chart-4: 262 83% 80%;
+            --chart-5: 340 82% 75%;
+            --bg-gradient: radial-gradient(circle at top, #111827, #020617);
+            --building: 30 15% 25%;
+            --stairs: 25 10% 20%;
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: hsl(var(--background));
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: hsl(var(--foreground));
+            line-height: 1.5;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Custom spacing */
+        .space-y-0\.5 > * + * { margin-top: 0px; } /* 2px */
+
+        /* Utility classes */
+        .container {
+            max-width: calc(1920px * 0.90);
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-base {
+            font-size: 1rem;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .h1-highlight {
+            background: linear-gradient(120deg, #2563eb, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.25rem;
+        }
+
+        .text-5xl {
+            font-size: 3rem;
+        }
+
+        .text-muted-foreground {
+            color: hsl(var(--muted-foreground));
+        }
+
+        .text-primary {
+            color: hsl(var(--primary));
+        }
+
+        .text-accent {
+            color: hsl(var(--accent));
+        }
+
+        .text-foreground {
+            color: hsl(var(--foreground));
+        }
+
+        /* Card component */
+        .card {
+            background-color: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }               
+                    
+        .p-4 { padding: 10px; }
+        .p-6 { padding: 10px; }
+        .p-8 { padding: 10px; }
+                    
+        .mb-2 { margin: 10px; }
+        .mb-3 { margin: 10px; }
+        .mb-4 { margin: 10px; }
+        .mb-6 { margin: 10px; }
+        .mb-8 { margin: 10px; }
+        .mb-1 { margin: 10px; }
+                    
+        .mt-4 { margin: 10px; }
+        .mt-6 { margin: 10px; }
+                    
+        .mt-1 { margin: 10px; }
+        .mt-2 { margin: 10px; }
+        .mt-3 { margin: 10px; }
+
+        .space-y-2 > * + * { margin: 10px; }
+        .space-y-4 > * + * { margin: 10px; }
+        .space-y-6 > * + * { margin: 10px; }
+        .space-y-0.5> * + * { margin: 50px; }
+
+        .flex { display: flex; }
+        .flex-1 { flex: 1; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-end { justify-content: flex-end; }
+
+        .gap-1 { gap: 0px; }
+        .gap-2 { gap: 30px; }
+        .gap-3 { gap: 0px; }
+        .gap-4 { gap: 0px; }
+        .gap-6 { gap: 0px; }
+
+        /* Grid */
+        .grid { display: grid; }
+        .lg\:grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            padding: 0 0;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+            color: hsl(var(--primary-foreground));
+            box-shadow: 0 10px 25px hsl(var(--primary) / 0.6), 0 0 0 1px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 30px hsl(var(--primary) / 0.7), 0 0 0 1px rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-outline {
+            border: 1px solid hsl(var(--border));
+            background: rgba(15, 23, 42, 0.02);
+            color: hsl(var(--foreground) / 0.9);
+            padding: 0.25rem 0.5rem;
+        }
+
+        [data-theme="dark"] .btn-outline {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(30, 64, 175, 0.85);
+        }
+
+        .btn-outline:hover {
+            background: rgba(15, 23, 42, 0.06);
+            border-color: hsl(var(--primary));
+        }
+
+        [data-theme="dark"] .btn-outline:hover {
+            background: rgba(30, 64, 175, 0.75);
+            border-color: hsl(var(--primary));
+        }
+
+        .btn-icon {
+        <!--
+            width: 2.5rem;
+            height: 2.5rem;
+        -->
+        }
+
+        /* Slider */
+        .slider {
+            position: relative;
+            width: 100%;
+            touch-action: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .slider-track {
+            position: relative;
+            flex-grow: 1;
+            overflow: hidden;
+            border-radius: 9999px;
+            height: 0.25rem;
+            background-color: hsl(var(--secondary));
+        }
+
+        .slider-range {
+            position: absolute;
+            height: 100%;
+            background-color: hsl(var(--primary));
+        }
+
+        .slider-thumb {
+            display: block;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            border: 2px solid hsl(var(--primary));
+            background-color: hsl(var(--background));
+            box-shadow: 0 2px 10px 0 rgb(0 0 0 / 0.2);
+        }
+
+        .slider-thumb:focus {
+            outline: 2px solid hsl(var(--ring));
+            outline-offset: 2px;
+        }
+
+        /* Background gradients */
+        .bg-background { background-color: hsl(var(--background)); }
+        .bg-primary\/5 { background-color: hsl(var(--primary) / 0.05); }
+        .bg-muted { background-color: hsl(var(--muted)); }
+        .bg-muted\/50 { background-color: hsl(var(--muted) / 0.5); }
+        .bg-primary\/10 { background-color: hsl(var(--primary) / 0.1); }
+        .bg-accent\/10 { background-color: hsl(var(--accent) / 0.1); }
+        .bg-accent\/5 { background-color: hsl(var(--accent) / 0.05); }
+
+        /* Border */
+        .border { border: 1px solid hsl(var(--border)); }
+        .border-2 { border: 2px solid; }
+        .border-border { border-color: hsl(var(--border)); }
+
+        /* Rounded */
+        .rounded { border-radius: var(--radius); }
+        .rounded-lg { border-radius: calc(var(--radius) * 1.333); }
+        .rounded-full { border-radius: 9999px; }
+
+        /* Font family */
+        .font-mono {
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
+        }
+
+        /* Background */
+        .bg-gradient-to-b {
+            background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+        }
+
+        .from-sky-100 { --tw-gradient-from: #e0f2fe; }
+        .to-sky-50 { --tw-gradient-to: #f0f9ff; }
+        .dark\:from-sky-900\/20:is(.dark) { --tw-gradient-from: rgb(7 89 133 / 0.2); }
+        .dark\:to-sky-950\/20:is(.dark) { --tw-gradient-to: rgb(2 6 23 / 0.2); }
+
+        /* Hover */
+        .hover\:bg-accent:hover {
+            background-color: hsl(var(--accent));
+            color: hsl(var(--accent-foreground));
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .md\:p-8 { padding: 2rem; }
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .md\:text-5xl { font-size: 3rem; }
+            .md\:text-lg { font-size: 1.125rem; }
+        }
+
+        @media (max-width: 1023px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        .transition-all {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .duration-500 {
+            transition-duration: 500ms;
+        }
+
+        /* Width */
+        .w-full { width: 100%; }
+        .w-4 { width: 1rem; }
+
+        /* Height */
+        .min-h-screen { min-height: 100vh; }
+        .h-full { height: 100%; }
+        .h-12 { height: 3rem; }
+
+        /* Border colors */
+        .border-primary\/20 { border-color: hsl(var(--primary) / 0.2); }
+        .border-accent\/20 { border-color: hsl(var(--accent) / 0.2); }
+
+        /* Alper text color - keep #1e3a8a in both light and dark mode */
+        .alper-text { fill: #1e3a8a !important; }
+        [data-theme="dark"] .alper-text { fill: #4df5e3 !important; }
+
+        /* Text colors for dark mode */
+        .dark\:text-yellow-100:is(.dark) { color: #fef3c7; }
+        .dark\:bg-yellow-900\/20:is(.dark) { background-color: rgb(146 64 14 / 0.2); }
+        .dark\:border-yellow-800:is(.dark) { border-color: rgb(133 77 14); }
+
+        /* Text color variants */
+        .text-yellow-900 { color: #713f12; }
+        .bg-yellow-50 { background-color: #fffbeb; }
+        .border-yellow-200 { border-color: #fde68a; }
+
+        /* Position */
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .fixed { position: fixed; }
+
+        /* Overflow */
+        .overflow-hidden { overflow: hidden; }
+
+        /* Display */
+        .block { display: block; }
+
+        /* Z-index */
+        .z-50 { z-index: 50; }
+
+        /* Top, Right, Bottom, Left */
+        .top-0 { top: 0; }
+        .right-0 { right: 0; }
+        .bottom-0 { bottom: 0; }
+        .left-0 { left: 0; }
+
+        /* Custom styles for specific components */
+        .chart-bar {
+            transition: width 0.5s ease-in-out;
+        }
+
+        .chart-bar-gradient-primary {
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+        }
+
+        .chart-bar-gradient-accent {
+            background: linear-gradient(to right, hsl(var(--accent)), hsl(var(--accent) / 0.8));
+        }
+
+        /* Animation keyframes */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* SVG text styling */
+        svg text {
+            font-family: inherit;
+        }
+
+        /* Mobil Buton Stili */
+        #show-results-btn {
+            position: fixed;
+            bottom: 0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Lightbox Modal Stilleri */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox-content {
+            position: relative;
+            background-color: hsl(var(--card));
+            margin: 5vh auto;
+            padding: 0;
+            border-radius: var(--radius);
+            width: 80%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lightbox-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .lightbox-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: hsl(var(--muted-foreground));
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .lightbox-close:hover {
+            background: hsl(var(--muted));
+            color: hsl(var(--foreground));
+        }
+
+        .lightbox-body {
+            padding: 1rem;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 2px 8px rgba(15, 23, 42, 0.15),
+                0 0 0 1px rgba(148, 163, 184, 0.1);
+            backdrop-filter: blur(12px) saturate(1.25);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: rgba(30, 64, 175, 0.9);
+            box-shadow: 
+                0 10px 30px rgba(15, 23, 42, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.25);
+        }
+
+        .theme-toggle .icon {
+            font-size: 16px;
+            position: absolute;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            user-select: none;
+        }
+
+        .theme-toggle .sun {
+            opacity: 0;
+            transform: scale(0.7) rotate(-20deg);
+        }
+
+        .theme-toggle .moon {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        [data-theme="dark"] .theme-toggle .sun {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        [data-theme="dark"] .theme-toggle .moon {
+            opacity: 0;
+            transform: scale(0.7) rotate(20deg);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 4px 12px rgba(15, 23, 42, 0.2),
+                0 0 0 1px rgba(148, 163, 184, 0.2);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            box-shadow: 
+                0 12px 35px rgba(15, 23, 42, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .min-h-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Grid container optimization */
+        .grid {
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+        }
+
+        .lg\:grid-cols-4 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .lg\:col-span-1 {
+            flex-shrink: 0;
+        }
+
+        .lg\:col-span-3 {
+            flex: 1;
+            overflow: auto;
+        }
+
+        /* 🚀 MOBİL OPTİMİZASYON - EN KRİTİK DÜZELTMELER */
+        @media (max-width: 1023px) {
+            .container {
+                padding: 0.5rem;
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            /* Ana grid'i dikey istiflemeye zorla */
+            .grid, .lg\:grid-cols-4 {
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+            
+            /* Her iki sütun da tam genişlik */
+            .lg\:col-span-1, .lg\:col-span-3 {
+                width: 100%;
+                max-width: 100%;
+                flex-shrink: 0;
+            }
+            
+            /* Parametre kartı kompakt */
+            .card.p-2 { padding: 0.5rem; }
+            .space-y-2 > * + * { margin-top: 0.5rem; }
+            .space-y-0\.5 > * + * { margin-top: 0.5rem; }
+            .mb-1 { margin-bottom: 0.5rem; }
+            
+            /* 🚨 KRİTİK: SVG Responsive Düzeltmesi */
+            #animation-container svg {
+                width: 100% !important;
+                height: auto !important;
+                max-height: 65vh !important;
+                display: block;
+            }
+            
+            /* Slider dokunmatik iyileştirme */
+            .slider-thumb {
+                width: 1.5rem !important;
+                height: 1.5rem !important;
+                border: 3px solid hsl(var(--primary)) !important;
+            }
+            .slider-track {
+                height: 0.5rem !important;
+            }
+            
+            /* Mobil buton iyileştirme */
+            #show-results-btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Desktop Additional container styles */
+        @media (min-width: 1024px) {
+            .container .grid {
+                display: flex !important;
+                flex-direction: row;
+                gap: 1rem;
+                flex: 1;
+                overflow: hidden;
+            }
+
+            .container .lg\:col-span-1 {
+                flex: 0 0 auto;
+                width: 280px;
+            }
+
+            .container .lg\:col-span-3 {
+                flex: 1;
+                min-width: 0;
+                overflow: auto;
+            }
+        }
+
+        /* Additional utilities */
+        .flex-0 { flex: 0; }
+        .w-20 { width: 5rem; }
+        .w-24 { width: 6rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <span class="icon sun">☀️</span>
+        <span class="icon moon">🌙</span>
+    </div>
+
+    <div class="min-h-screen" style="padding: 0;" id="app">
+        <div class="container">
+            <header class="text-center mb-1">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 h1-highlight">
+                    Günlük Hayatta Güç ve Enerji Kullanımı
+                </h1>
+            </header>
+
+            <div class="grid lg:grid-cols-4 gap-6 mb-1" style="gap: 20px;">
+                
+                <!-- Parametreler Paneli -->
+                <div class="lg:col-span-1">
+                    <div class="card p-2">
+                        <div class="space-y-2">
+                            <h2 class="text-sm font-semibold text-primary">
+                                ⚙️ Parametreler
+                            </h2>
+
+                            <!-- TV Kütlesi -->
+                            <div class="space-y-0.5">
+                                <div class="flex justify-between items-center">
+                                    <label for="mass" class="text-sm font-medium">
+                                        TV Kütlesi (kg)
+                                    </label>
+                                    <span class="text-xs font-mono bg-muted px-2 py-1 rounded" id="mass-display">
+                                        40 kg
+                                    </span>
+                                </div>
+                                <div class="slider">
+                                    <div class="slider-track">
+                                        <div class="slider-range" id="mass-range" style="width: 33.3333%;"></div>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="20"
+                                        max="80"
+                                        step="5"
+                                        value="40"
+                                        id="mass-slider"
+                                        class="slider-thumb"
+                                        style="position: absolute; width: 100%; opacity: 0; cursor: pointer;"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Bina Yüksekliği -->
+                            <div class="space-y-0.5">
+                                <div class="flex justify-between items-center">
+                                    <label for="height" class="text-sm font-medium">
+                                        Bina Yüksekliği (m)
+                                    </label>
+                                    <span class="text-xs font-mono bg-muted px-2 py-1 rounded" id="height-display">
+                                        12 m
+                                    </span>
+                                </div>
+                                <div class="slider">
+                                    <div class="slider-track">
+                                        <div class="slider-range" id="height-range" style="width: 33.3333%;"></div>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="8"
+                                        max="20"
+                                        step="2"
+                                        value="12"
+                                        id="height-slider"
+                                        class="slider-thumb"
+                                        style="position: absolute; width: 100%; opacity: 0; cursor: pointer;"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Makara Süresi -->
+                            <div class="space-y-0.5">
+                                <div class="flex justify-between items-center">
+                                    <label for="timePulley" class="text-sm font-medium">
+                                        Makara Süresi (s)
+                                    </label>
+                                    <span class="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded" id="timePulley-display">
+                                        120 s
+                                    </span>
+                                </div>
+                                <div class="slider">
+                                    <div class="slider-track">
+                                        <div class="slider-range" id="timePulley-range" style="width: 33.3333%;"></div>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="30"
+                                        max="300"
+                                        step="10"
+                                        value="120"
+                                        id="timePulley-slider"
+                                        class="slider-thumb"
+                                        style="position: absolute; width: 100%; opacity: 0; cursor: pointer;"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Merdiven Süresi -->
+                            <div class="space-y-0.5">
+                                <div class="flex justify-between items-center">
+                                    <label for="timeStairs" class="text-sm font-medium">
+                                        Merdiven Süresi (s)
+                                    </label>
+                                    <span class="text-xs font-mono bg-accent/10 text-accent px-2 py-1 rounded" id="timeStairs-display">
+                                        300 s
+                                    </span>
+                                </div>
+                                <div class="slider">
+                                    <div class="slider-track">
+                                        <div class="slider-range" id="timeStairs-range" style="width: 44.4444%;"></div>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="60"
+                                        max="600"
+                                        step="20"
+                                        value="300"
+                                        id="timeStairs-slider"
+                                        class="slider-thumb"
+                                        style="position: absolute; width: 100%; opacity: 0; cursor: pointer;"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Butonlar -->
+                            <div class="flex gap-2 mt-4">
+                                <button class="btn btn-primary flex-1 text-xs" style="padding: 0.5rem 0;" id="start-btn">
+                                    ▶️ Başlat
+                                </button>
+                                <button class="btn btn-outline" id="reset-btn">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                        <path d="M21 3v5h-5"></path>
+                                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                                        <path d="M3 21v-5h5"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animasyon Alanı -->
+                <div class="lg:col-span-3">
+                    <div class="card p-2">
+                        <h2 class="text-lg font-semibold text-primary mb-3 text-center">🎯 Simülasyon</h2>
+                        <div id="animation-container" class="flex justify-center max-w-7xl mx-auto">
+                            <div class="w-full bg-gradient-to-b from-sky-100 to-sky-50 rounded-lg p-6 relative overflow-hidden">
+                                <svg width="100%" height="500" viewBox="0 0 600 500" class="mx-auto">
+                                    <!-- SVG İçeriği JavaScript ile doldurulacak -->
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Animasyon bittikten sonra gösterilecek sonuçlar butonu -->
+                        <div class="text-center mt-3">
+                            <button class="btn btn-primary" style="padding: 0.5rem 0; display: none;" id="show-results-after-animation">
+                                📊 Sonuçları Görüntüle
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formüller -->
+            <div class="card p-2 bg-primary/5 mb-1">
+                <h3 class="font-semibold text-sm mb-1 text-center">📐 Fizik Formülleri</h3>
+                <div class="grid md:grid-cols-2 gap-3 text-sm max-w-xl mx-auto">
+                    <div class="text-center">
+                        <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm">
+                            İş (W) = m × g × h
+                        </p>
+                        <p class="text-muted-foreground mt-1 text-xs">
+                            Kütle × Yerçekimi × Yükseklik
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-mono bg-background px-2 py-2 rounded-lg text-sm">
+                            Güç (P) = W / t
+                        </p>
+                        <p class="text-muted-foreground mt-1 text-xs">
+                            İş / Zaman
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobil Sonuç Butonu -->
+    <button class="btn btn-primary" style="padding: 0.5rem 0; display: none;" id="show-results-btn">
+        Sonuçları Gör
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m6 9 6 6 6-6"></path>
+        </svg>
+    </button>
+
+    <!-- Lightbox Modal -->
+    <div id="results-modal" class="lightbox-modal" style="display: none;">
+        <div class="lightbox-content">
+            <div class="lightbox-header">
+                <h2 class="text-2xl font-semibold text-primary" id="results-header">🎯 Simülasyon Sonuçları</h2>
+                <button class="lightbox-close" onclick="closeResultsModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m18 6-12 12"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="lightbox-body">
+                <div class="space-y-4">
+                    <div class="bg-muted/50 rounded-lg p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-muted-foreground">Yapılan İş (Her İkisi İçin)</span>
+                            <span class="text-2xl font-bold text-foreground" id="work-display">4704 J</span>
+                        </div>
+                        <p class="text-xs text-muted-foreground mt-2">
+                            Aynı TV, aynı yükseklik → İş aynı
+                        </p>
+                    </div>
+
+                    <div class="bg-primary/5 rounded-lg p-4 border-2 border-primary/20">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-medium text-primary">Makara ile Güç (Duru)</span>
+                            <span class="text-2xl font-bold text-primary" id="powerPulley-display">39,2 W</span>
+                        </div>
+                        <p class="text-xs text-muted-foreground" id="pulley-time-display">Süre: 120s = 2,0 dakika</p>
+                    </div>
+
+                    <div class="bg-accent/5 rounded-lg p-4 border-2 border-accent/20">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-medium text-accent">Merdiven ile Güç (Alper)</span>
+                            <span class="text-2xl font-bold text-accent" id="powerStairs-display">15,7 W</span>
+                        </div>
+                        <p class="text-xs text-muted-foreground" id="stairs-time-display">Süre: 300s = 5,0 dakika</p>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-4" id="insight-box">
+                        <p class="text-sm font-medium text-yellow-900">💡 Anahtar Fikir: Makara yöntemi merdiven yöntemine göre 2,50x daha fazla güç kullanıyor çünkü işi daha kısa sürede yapıyor!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        const THEME_KEY = "tv-energy-sim-theme";
+
+        function applyTheme(theme) {
+            const root = document.body;
+            if (theme === "dark") {
+                root.setAttribute("data-theme", "dark");
+            } else {
+                root.removeAttribute("data-theme");
+            }
+        }
+
+        (function initTheme() {
+            const storedTheme = localStorage.getItem(THEME_KEY);
+            if (storedTheme) {
+                applyTheme(storedTheme);
+                return;
+            }
+
+            const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            applyTheme(prefersDark ? "dark" : "light");
+        })();
+
+        function toggleTheme() {
+            const isDark = document.body.getAttribute("data-theme") === "dark";
+            const newTheme = isDark ? "light" : "dark";
+            applyTheme(newTheme);
+            localStorage.setItem(THEME_KEY, newTheme);
+        }
+
+        // Physics Simulation JavaScript
+        class PhysicsSimulation {
+            constructor() {
+                // Initial values
+                this.mass = 40; // kg
+                this.height = 12; // m
+                this.timePulley = 120; // s
+                this.timeStairs = 300; // s
+                this.isAnimating = false;
+                
+                this.g = 9.8; // m/s²
+
+                // Responsive design detection
+                this.isMobile = window.innerWidth <= 1024;
+                
+                // Koordinat sistemi - hem mobil hem desktop için
+                this.coords = this.isMobile ? this.getMobileCoords() : this.getDesktopCoords();
+                
+                this.init();
+            }
+
+            getDesktopCoords() {
+                return {
+                    viewBox: "0 0 600 500",
+                    svgHeight: 500,
+                    building: { x: 120, y: 50, width: 240, height: 400 },
+                    ground: { y: 450 },
+                    pulley: { x: 150, y: 50 },
+                    personPulley: { x: 125 },
+                    personStairs: { x: 215 },
+                    heightMarker: { x: 430 }
+                };
+            }
+
+            getMobileCoords() {
+                return {
+                    viewBox: "80 0 370 500",
+                    svgHeight: 500,
+                    building: { x: 120, y: 50, width: 240, height: 400 },
+                    ground: { y: 450 },
+                    pulley: { x: 120, y: 50 },
+                    personPulley: { x: 95 },
+                    personStairs: { x: 185 },
+                    heightMarker: { x: 380 }
+                };
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.updateCalculations();
+                this.renderAnimation();
+                this.closeResultsModal();
+            }
+
+            setupEventListeners() {
+                // Slider event listeners
+                document.getElementById('mass-slider').addEventListener('input', (e) => {
+                    this.mass = parseInt(e.target.value);
+                    this.updateDisplay('mass', this.mass);
+                    this.updateCalculations();
+                });
+
+                document.getElementById('height-slider').addEventListener('input', (e) => {
+                    this.height = parseInt(e.target.value);
+                    this.updateDisplay('height', this.height);
+                    this.updateCalculations();
+                    this.renderAnimation();
+                });
+
+                document.getElementById('timePulley-slider').addEventListener('input', (e) => {
+                    this.timePulley = parseInt(e.target.value);
+                    this.updateDisplay('timePulley', this.timePulley);
+                    this.updateCalculations();
+                });
+
+                document.getElementById('timeStairs-slider').addEventListener('input', (e) => {
+                    this.timeStairs = parseInt(e.target.value);
+                    this.updateDisplay('timeStairs', this.timeStairs);
+                    this.updateCalculations();
+                });
+
+                // Button event listeners
+                document.getElementById('start-btn').addEventListener('click', () => {
+                    this.startAnimation();
+                });
+
+                document.getElementById('reset-btn').addEventListener('click', () => {
+                    this.reset();
+                });
+
+                // Mobil buton
+                document.getElementById('show-results-btn').addEventListener('click', () => {
+                    this.showResultsModal();
+                });
+
+                // Animasyon sonrası sonuç butonu
+                document.getElementById('show-results-after-animation').addEventListener('click', () => {
+                    this.showResultsModal();
+                });
+
+                // Modal dışına tıklanınca kapanması
+                document.getElementById('results-modal').addEventListener('click', (e) => {
+                    if (e.target.id === 'results-modal') {
+                        this.closeResultsModal();
+                    }
+                });
+
+                // Resize listener for responsive behavior
+                window.addEventListener('resize', () => {
+                    const wasMobile = this.isMobile;
+                    this.isMobile = window.innerWidth <= 1024;
+                    if (wasMobile !== this.isMobile) {
+                        this.coords = this.isMobile ? this.getMobileCoords() : this.getDesktopCoords();
+                        this.renderAnimation();
+                    }
+                });
+
+                this.updateSliderBackgrounds();
+            }
+
+            updateSliderBackgrounds() {
+                const sliders = ['mass', 'height', 'timePulley', 'timeStairs'];
+                sliders.forEach(slider => {
+                    const input = document.getElementById(`${slider}-slider`);
+                    const range = document.getElementById(`${slider}-range`);
+                    const percentage = ((parseInt(input.value) - parseInt(input.min)) / (parseInt(input.max) - parseInt(input.min))) * 100;
+                    range.style.width = `${percentage}%`;
+                });
+            }
+
+            updateDisplay(type, value) {
+                const unit = type.includes('time') ? 's' : (type === 'height' ? 'm' : 'kg');
+                document.getElementById(`${type}-display`).textContent = `${value} ${unit}`;
+                this.updateSliderBackgrounds();
+            }
+
+            calculate() {
+                this.work = this.mass * this.g * this.height;
+                this.powerPulley = this.work / this.timePulley;
+                this.powerStairs = this.work / this.timeStairs;
+            }
+
+            updateCalculations() {
+                this.calculate();
+                
+                document.getElementById('work-display').textContent = `${this.work.toFixed(0).replace('.', ',')} J`;
+                document.getElementById('powerPulley-display').textContent = `${this.powerPulley.toFixed(1).replace('.', ',')} W`;
+                document.getElementById('powerStairs-display').textContent = `${this.powerStairs.toFixed(1).replace('.', ',')} W`;
+                
+                document.getElementById('pulley-time-display').textContent = `Süre: ${this.timePulley}s = ${(this.timePulley / 60).toFixed(1).replace('.', ',')} dakika`;
+                document.getElementById('stairs-time-display').textContent = `Süre: ${this.timeStairs}s = ${(this.timeStairs / 60).toFixed(1).replace('.', ',')} dakika`;
+                
+                this.updateInsight();
+            }
+
+            updateInsight() {
+                const insightBox = document.getElementById('insight-box');
+                let insight = '';
+                
+                if (this.powerPulley > this.powerStairs) {
+                    insight = `💡 Anahtar Fikir: Makara yöntemi merdiven yöntemine göre ${(this.powerPulley / this.powerStairs).toFixed(2).replace('.', ',')}x daha fazla güç kullanıyor çünkü işi daha kısa sürede yapıyor!`;
+                } else {
+                    insight = `💡 Anahtar Fikir: Merdiven yöntemi makara yöntemine göre ${(this.powerStairs / this.powerPulley).toFixed(2).replace('.', ',')}x daha fazla güç kullanıyor çünkü işi daha kısa sürede yapıyor!`;
+                }
+                
+                insightBox.innerHTML = `<p class="text-sm font-medium text-yellow-900">${insight}</p>`;
+            }
+
+            renderAnimation() {
+                const floors = Math.floor(this.height / 3);
+                const buildingHeight = 400;
+                const floorHeight = buildingHeight / floors;
+                const stepsPerFloor = 8;
+                const topY = 50;
+                const bottomY = 450;
+                const midY = (topY + bottomY) / 2;
+
+                const c = this.coords;
+                const isMobile = this.isMobile;
+
+                const svg = `
+                    <div class="w-full bg-gradient-to-b from-sky-100 to-sky-50 rounded-lg p-6 relative overflow-hidden">
+                        <svg width="100%" height="${c.svgHeight}" viewBox="${c.viewBox}" class="mx-auto">
+                            ${this.renderHeightMarker(topY, bottomY, midY, c)}
+                            ${this.renderGround(c)}
+                            ${this.renderBuilding(topY, buildingHeight, c)}
+                            ${this.renderFloors(floors, floorHeight, stepsPerFloor)}
+                            ${this.renderPulleySystem(topY, c)}
+                            ${this.renderTVPulley(c)}
+                            ${this.renderPersonPulley(c)}
+                            ${this.renderPersonStairs()}
+                        </svg>
+                    </div>
+                `;
+
+                document.getElementById('animation-container').innerHTML = svg;
+            }
+
+            renderHeightMarker(topY, bottomY, midY, coords) {
+                return `
+                    <g id="height-marker">
+                        <line x1="${coords.heightMarker.x}" y1="${topY}" x2="${coords.heightMarker.x}" y2="${bottomY}" stroke="hsl(var(--foreground))" stroke-width="2"></line>
+                        <line x1="${coords.heightMarker.x - 5}" y1="${topY + 5}" x2="${coords.heightMarker.x}" y2="${topY}" stroke="hsl(var(--foreground))" stroke-width="2"></line>
+                        <line x1="${coords.heightMarker.x + 5}" y1="${topY + 5}" x2="${coords.heightMarker.x}" y2="${topY}" stroke="hsl(var(--foreground))" stroke-width="2"></line>
+                        <line x1="${coords.heightMarker.x - 5}" y1="${bottomY - 5}" x2="${coords.heightMarker.x}" y2="${bottomY}" stroke="hsl(var(--foreground))" stroke-width="2"></line>
+                        <line x1="${coords.heightMarker.x + 5}" y1="${bottomY - 5}" x2="${coords.heightMarker.x}" y2="${bottomY}" stroke="hsl(var(--foreground))" stroke-width="2"></line>
+                        <text x="${coords.heightMarker.x + 15}" y="${midY}" font-size="20" font-style="italic" fill="hsl(var(--foreground))" text-anchor="middle" dominant-baseline="middle">h</text>
+                    </g>
+                `;
+            }
+
+            renderGround(coords) {
+                return `<rect x="100" y="${coords.ground.y}" width="380" height="50" fill="hsl(var(--building))"></rect>`;
+            }
+
+            renderBuilding(topY, buildingHeight, coords) {
+                return `
+                    <rect
+                        x="${coords.building.x}"
+                        y="${topY}"
+                        width="${coords.building.width}"
+                        height="${buildingHeight}"
+                        fill="hsl(var(--building))"
+                        stroke="hsl(var(--border))"
+                        stroke-width="2"
+                    />
+                `;
+            }
+
+            renderFloors(floors, floorHeight, stepsPerFloor) {
+                return Array.from({ length: floors }).map((_, i) => {
+                    const y = 500 - 50 - (i + 1) * floorHeight;
+                    return `
+                        <g>
+                            <line
+                                x1="180"
+                                y1="${y}"
+                                x2="420"
+                                y2="${y}"
+                                stroke="hsl(var(--border))"
+                                stroke-width="2"
+                            />
+                            ${Array.from({ length: 8 }).map((_, stepIndex) => {
+                                const stepWidth = 15;
+                                const stepHeight = floorHeight / 8;
+                                const stepX = 215 + stepIndex * stepWidth;
+                                const stepY = y + (7 - stepIndex) * stepHeight;
+                                
+                                return `
+                                    <rect
+                                        x="${stepX}"
+                                        y="${stepY}"
+                                        width="${stepWidth}"
+                                        height="${stepHeight}"
+                                        fill="hsl(var(--stairs))"
+                                        stroke="hsl(var(--border))"
+                                        stroke-width="1"
+                                    />
+                                `;
+                            }).join('')}
+                        </g>
+                    `;
+                }).join('');
+            }
+
+            renderPulleySystem(topY, coords) {
+                return `
+                    <g>
+                        <line x1="180" y1="${topY + 10}" x2="${coords.pulley.x - 20}" y2="${topY + 10}" stroke="hsl(var(--foreground))" stroke-width="4"></line>
+                        
+                        <circle cx="${coords.pulley.x}" cy="${topY}" r="20" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" stroke-width="3"></circle>
+                        <circle cx="${coords.pulley.x}" cy="${topY}" r="8" fill="hsl(var(--foreground))"></circle>
+                        
+                        <path d="M ${coords.pulley.x - 20} ${topY} A 20 20 0 0 1 ${coords.pulley.x + 20} ${topY}" stroke="hsl(var(--primary))" stroke-width="3" fill="none"></path>
+                        
+                        <line
+                            id="pulley-rope"
+                            x1="${coords.pulley.x + 20}"
+                            y1="${topY}"
+                            x2="${coords.pulley.x + 20}"
+                            y2="450"
+                            stroke="hsl(var(--primary))"
+                            stroke-width="3"
+                        />
+                        
+                        <line
+                            id="pulley-rope-duru"
+                            x1="${coords.pulley.x - 20}"
+                            y1="${topY}"
+                            x2="${coords.pulley.x - 20}"
+                            y2="454"
+                            stroke="hsl(var(--primary))"
+                            stroke-width="3"
+                        />
+                        <circle cx="${coords.pulley.x - 20}" cy="462" r="8" fill="hsl(var(--muted))" stroke="hsl(var(--foreground))" stroke-width="2"></circle>
+                        <line id="winch-handle" x1="${coords.pulley.x - 20}" y1="462" x2="${coords.pulley.x - 20}" y2="455" stroke="hsl(var(--foreground))" stroke-width="3"></line>
+                    </g>
+                `;
+            }
+
+            renderTVPulley(coords) {
+                return `
+                    <g id="tv-pulley" transform="translate(${coords.pulley.x}, 450)">
+                        <rect x="0" y="0" width="40" height="30" fill="black" rx="2"></rect>
+                        <rect x="5" y="5" width="30" height="18" fill="hsl(var(--primary))" rx="1"></rect>
+                        <text x="20" y="28" font-size="8" fill="white" text-anchor="middle">TV</text>
+                    </g>
+                `;
+            }
+
+            renderPersonPulley(coords) {
+                return `
+                    <g id="person-pulley" transform="translate(${coords.personPulley.x}, 450)">
+                        <circle cx="10" cy="-8" r="6" fill="#8b4a2b"></circle>
+                        <path d="M 4 -8 Q 10 -12 16 -8 Q 16 -6 14 -4 Q 12 -2 10 -3 Q 8 -2 6 -4 Q 4 -6 4 -8" fill="#8b5a2b"></path>
+                        <rect x="5" y="-3" width="10" height="12" fill="#4da6ff" rx="1"></rect>
+                        <line x1="5" y1="-1" x2="3" y2="4" stroke="#f4c7a1" stroke-width="2"></line>
+                        <line x1="15" y1="-1" x2="17" y2="4" stroke="#f4c7a1" stroke-width="2"></line>
+                        <circle cx="3" cy="4" r="1" fill="#f4c7a1"></circle>
+                        <circle cx="17" cy="4" r="1" fill="#f4c7a1"></circle>
+                        <rect x="6" y="9" width="8" height="6" fill="#b59f6a" rx="1"></rect>
+                        <line x1="8" y1="15" x2="7" y2="23" stroke="#f4c7a1" stroke-width="2"></line>
+                        <line x1="12" y1="15" x2="13" y2="23" stroke="#f4c7a1" stroke-width="2"></line>
+                        <rect x="5" y="23" width="3" height="2" fill="#ffffff" rx="0.5"></rect>
+                        <rect x="12" y="23" width="3" height="2" fill="#ffffff" rx="0.5"></rect>
+                        <line id="pulley-arm-left" x1="7" y1="3" x2="5" y2="5" stroke="#4da6ff" stroke-width="3" opacity="0.8"></line>
+                        <line id="pulley-arm-right" x1="13" y1="3" x2="5" y2="5" stroke="#4da6ff" stroke-width="3" opacity="0.8"></line>
+                        <text x="10" y="40" font-size="12" fill="#4da6ff" text-anchor="middle" font-weight="bold">Duru</text>
+                    </g>
+                `;
+            }
+
+            renderPersonStairs() {
+                return `
+                    <g id="person-stairs" transform="translate(215, 450)">
+                        <rect x="-8" y="-38" width="16" height="12" fill="#333" rx="1"></rect>
+                        <rect x="-6" y="-36" width="12" height="8" fill="#4da6ff" rx="1"></rect>
+                        <rect x="-5" y="-16" width="10" height="12" fill="#1e3a8a" rx="1"></rect>
+                        <line x1="-3" y1="-14" x2="-8" y2="-28" stroke="#d4a574" stroke-width="4"></line>
+                        <line x1="3" y1="-14" x2="8" y2="-28" stroke="#d4a574" stroke-width="4"></line>
+                        <circle cx="-8" cy="-28" r="1" fill="#d4a574"></circle>
+                        <circle cx="8" cy="-28" r="1" fill="#d4a574"></circle>
+                        <circle cx="0" cy="-22" r="6" fill="#2c1810"></circle>
+                        <path d="M -6 -22 Q 0 -28 6 -22 Q 6 -20 5 -18 Q 3 -16 0 -17 Q -3 -16 -5 -18 Q -6 -20 -6 -22" fill="#2c1810"></path>
+                        <rect x="-4" y="-4" width="8" height="8" fill="#9ca55b" rx="1"></rect>
+                        <line x1="-2" y1="4" x2="-3" y2="12" stroke="#d4a574" stroke-width="2"></line>
+                        <line x1="2" y1="4" x2="3" y2="12" stroke="#d4a574" stroke-width="2"></line>
+                        <rect x="-5" y="12" width="3" height="2" fill="#2d3748" rx="0.5"></rect>
+                        <rect x="2" y="12" width="3" height="2" fill="#2d3748" rx="0.5"></rect>
+                        <text x="0" y="25" font-size="12" fill="#4eeed2" text-anchor="middle" font-weight="bold" class="alper-text">Alper</text>
+                    </g>
+                `;
+            }
+
+            startAnimation() {
+                if (this.isAnimating) return;
+                
+                this.isAnimating = true;
+                document.getElementById('start-btn').textContent = 'Animasyon Oynatılıyor...';
+                document.getElementById('start-btn').disabled = true;
+
+                // Sonuç butonlarını gizle
+                document.getElementById('show-results-btn').style.display = 'none';
+                document.getElementById('show-results-after-animation').style.display = 'none';
+
+                // Add progress indicators
+                this.addProgressIndicators();
+
+                // Mobil ise animasyona kaydır
+                if (this.isMobile) {
+                    document.getElementById('animation-container').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+
+                this.addProgressIndicators();
+
+                if (this.isMobile) {
+                    document.getElementById('animation-container').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+
+                const startTime = Date.now();
+                const pulleyDuration = this.timePulley * 20;
+                const stairsDuration = this.timeStairs * 20;
+                const totalDuration = Math.max(pulleyDuration, stairsDuration);
+
+                const animate = () => {
+                    const elapsed = Date.now() - startTime;
+                    
+                    const pulleyProgress = Math.min((elapsed / pulleyDuration) * 100, 100);
+                    this.updatePulleyAnimation(pulleyProgress, elapsed);
+                    
+                    const stairsProgress = Math.min((elapsed / stairsDuration) * 100, 100);
+                    this.updateStairsAnimation(stairsProgress, elapsed);
+                    
+                    this.updateProgress(pulleyProgress, stairsProgress);
+                    
+                    if (elapsed < totalDuration) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        this.stopAnimation();
+                    }
+                };
+
+                requestAnimationFrame(animate);
+            }
+
+            updatePulleyAnimation(progress, elapsed) {
+                const tvElement = document.getElementById('tv-pulley');
+                if (tvElement) {
+                    const buildingHeight = 400;
+                    const topY = 50;
+                    let yPos;
+                    if (progress >= 100) {
+                        yPos = topY;
+                    } else {
+                        yPos = 450 - (buildingHeight * progress / 100);
+                    }
+                    tvElement.setAttribute('transform', `translate(${this.coords.pulley.x}, ${yPos})`);
+                }
+
+                const ropeElement = document.getElementById('pulley-rope');
+                if (ropeElement) {
+                    const buildingHeight = 400;
+                    const topY = 50;
+                    let y2;
+                    if (progress >= 100) {
+                        y2 = topY;
+                    } else {
+                        y2 = 450 - (buildingHeight * progress / 100);
+                    }
+                    ropeElement.setAttribute('y2', y2.toString());
+                }
+
+                // Duru'nun vinç animasyonu
+                const winchHandle = document.getElementById('winch-handle');
+                const armLeft = document.getElementById('pulley-arm-left');
+                const armRight = document.getElementById('pulley-arm-right');
+
+                if (winchHandle && armLeft && armRight) {
+                    const winchCenterX = this.coords.pulley.x - 20;
+                    const winchCenterY = 462;
+                    const handleRadius = 7;
+                    const duruBaseX = this.coords.personPulley.x;
+                    const duruBaseY = 450;
+                    
+                    if (progress >= 100) {
+                        const handleX = winchCenterX;
+                        const handleY = winchCenterY - handleRadius;
+                        winchHandle.setAttribute('x2', handleX);
+                        winchHandle.setAttribute('y2', handleY);
+                        
+                        const armTargetX = handleX - duruBaseX;
+                        const armTargetY = handleY - duruBaseY;
+                        armLeft.setAttribute('x2', armTargetX);
+                        armLeft.setAttribute('y2', armTargetY);
+                        armRight.setAttribute('x2', armTargetX);
+                        armRight.setAttribute('y2', armTargetY);
+                    } else {
+                        const angle = (elapsed / 400) * Math.PI * 2;
+                        const handleX = winchCenterX + handleRadius * Math.sin(angle);
+                        const handleY = winchCenterY - handleRadius * Math.cos(angle);
+                        
+                        winchHandle.setAttribute('x2', handleX.toString());
+                        winchHandle.setAttribute('y2', handleY.toString());
+
+                        const armTargetX = handleX - duruBaseX;
+                        const armTargetY = handleY - duruBaseY;
+                        armLeft.setAttribute('x2', armTargetX.toString());
+                        armLeft.setAttribute('y2', armTargetY.toString());
+                        armRight.setAttribute('x2', armTargetX.toString());
+                        armRight.setAttribute('y2', armTargetY.toString());
+                    }
+                }
+            }
+
+            updateStairsAnimation(progress, elapsed) {
+                const personElement = document.getElementById('person-stairs');
+                if (personElement) {
+                    const buildingHeight = 400;
+                    const topY = 50;
+
+                    if (progress >= 100) {
+                        const floors = Math.floor(this.height / 3);
+                        const floorHeight = buildingHeight / floors;
+                        const stepsPerFloor = 8;
+                        const totalSteps = floors * stepsPerFloor;
+                        
+                        const lastStep = totalSteps - 1;
+                        const lastFloor = Math.floor(lastStep / stepsPerFloor);
+                        const lastStepInFloor = lastStep % stepsPerFloor;
+                        
+                        const stepWidth = 15;
+                        const stepHeight = floorHeight / stepsPerFloor;
+                        const baseFloorY = 500 - 50 - floorHeight;
+                        
+                        const finalStepX = 215 + lastStepInFloor * stepWidth;
+                        const finalStepY = baseFloorY - (lastFloor * floorHeight) + (stepsPerFloor - 1 - lastStepInFloor) * stepHeight;
+                        
+                        personElement.setAttribute('transform', `translate(${finalStepX}, ${finalStepY})`);
+                    } else {
+                        const floors = Math.floor(this.height / 3);
+                        const floorHeight = buildingHeight / floors;
+                        const stepsPerFloor = 8;
+                        const totalSteps = floors * stepsPerFloor;
+                        
+                        const currentStep = Math.floor((progress / 100) * totalSteps);
+                        const currentFloor = Math.floor(currentStep / stepsPerFloor);
+                        const stepInFloor = currentStep % stepsPerFloor;
+                        
+                        const stepWidth = 15;
+                        const stepHeight = floorHeight / stepsPerFloor;
+                        const baseFloorY = 500 - 50 - floorHeight;
+                        
+                        const floorY = baseFloorY - (currentFloor * floorHeight);
+                        const stepX = 215 + stepInFloor * stepWidth;
+                        const stepY = floorY + (stepsPerFloor - 1 - stepInFloor) * stepHeight;
+                                                
+                        personElement.setAttribute('transform', `translate(${stepX}, ${stepY})`);
+                    }
+                }
+            }
+
+            addProgressIndicators() {
+                const svg = document.querySelector('#animation-container svg');
+                if (svg) {
+                    const existingPulleyText = svg.querySelector('#pulley-progress');
+                    const existingStairsText = svg.querySelector('#stairs-progress');
+                    if (existingPulleyText) existingPulleyText.remove();
+                    if (existingStairsText) existingStairsText.remove();
+                    
+                    const textY = "25";
+                    const stairsX = this.isMobile ? "300" : "480";
+                    const stairsAnchor = this.isMobile ? "middle" : "start";
+                    const pulleyX = this.isMobile ? "150" : "50";
+                    const pulleyAnchor = this.isMobile ? "middle" : "start";
+
+                    const pulleyText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    pulleyText.setAttribute('x', pulleyX);
+                    pulleyText.setAttribute('y', textY);
+                    pulleyText.setAttribute('font-size', '14');
+                    pulleyText.setAttribute('fill', 'hsl(var(--chart-1))');
+                    pulleyText.setAttribute('font-weight', 'bold');
+                    pulleyText.setAttribute('id', 'pulley-progress');
+                    pulleyText.setAttribute('text-anchor', pulleyAnchor);
+                    
+                    const stairsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    stairsText.setAttribute('x', stairsX);
+                    stairsText.setAttribute('y', textY);
+                    stairsText.setAttribute('font-size', '14');
+                    stairsText.setAttribute('fill', 'hsl(var(--chart-2))');
+                    stairsText.setAttribute('font-weight', 'bold');
+                    stairsText.setAttribute('id', 'stairs-progress');
+                    stairsText.setAttribute('text-anchor', stairsAnchor);
+                    
+                    svg.appendChild(pulleyText);
+                    svg.appendChild(stairsText);
+                }
+            }
+
+            updateProgress(pulleyProgress, stairsProgress) {
+                const pulleyText = document.getElementById('pulley-progress');
+                const stairsText = document.getElementById('stairs-progress');
+                
+                if (pulleyText) {
+                    let pText = `Makara: ${pulleyProgress.toFixed(0)}%`;
+                    if (pulleyProgress >= 100) {
+                        pText += ' 🏁';
+                    }
+                    pulleyText.textContent = pText;
+                }
+                if (stairsText) {
+                    let sText = `Merdiven: ${stairsProgress.toFixed(0)}%`;
+                    if (stairsProgress >= 100) {
+                        sText += ' 🏁';
+                    }
+                    stairsText.textContent = sText;
+                }
+            }
+
+            stopAnimation() {
+                this.isAnimating = false;
+                document.getElementById('start-btn').textContent = 'Başlat';
+                document.getElementById('start-btn').disabled = false;
+                
+                this.updatePulleyAnimation(100, 0);
+                this.updateStairsAnimation(100, 0);
+                this.updateProgress(100, 100);
+
+                setTimeout(() => {
+                    this.showResultsModal();
+                }, 500);
+                
+                if (this.isMobile) {
+                    setTimeout(() => {
+                        document.getElementById('show-results-btn').style.display = 'inline-flex';
+                    }, 500);
+                }
+                
+                setTimeout(() => {
+                    document.getElementById('show-results-after-animation').style.display = 'inline-flex';
+                }, 500);
+            }
+
+            showResultsModal() {
+                document.getElementById('results-modal').style.display = 'block';
+            }
+
+            closeResultsModal() {
+                document.getElementById('results-modal').style.display = 'none';
+            }
+
+            reset() {
+                this.mass = 40;
+                this.height = 12;
+                this.timePulley = 120;
+                this.timeStairs = 300;
+                
+                document.getElementById('mass-slider').value = '40';
+                document.getElementById('height-slider').value = '12';
+                document.getElementById('timePulley-slider').value = '120';
+                document.getElementById('timeStairs-slider').value = '300';
+                
+                this.updateDisplay('mass', 40);
+                this.updateDisplay('height', 12);
+                this.updateDisplay('timePulley', 120);
+                this.updateDisplay('timeStairs', 300);
+                
+                this.updateCalculations();
+                this.renderAnimation();
+                                
+                if (this.isAnimating) {
+                    this.stopAnimation();
+                }
+
+                this.closeResultsModal();
+                if (this.isMobile) {
+                    document.getElementById('show-results-btn').style.display = 'none';
+                }
+                document.getElementById('show-results-after-animation').style.display = 'none';
+            }
+        }
+
+        // Initialize the simulation when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.physicsSim = new PhysicsSimulation();
+        });
+
+        // Global modal functions
+        function closeResultsModal() {
+            if (window.physicsSim) {
+                window.physicsSim.closeResultsModal();
+            }
+        }
+    </script>
+</body>
+</html>

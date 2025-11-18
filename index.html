@@ -60,6 +60,7 @@
             --bg-gradient: radial-gradient(circle at top, #111827, #020617);
             --building: 30 15% 25%;
             --stairs: 25 10% 20%;
+			--colorx= "#1e3a8a";
         }
 
         /* Reset and base styles */
@@ -403,6 +404,10 @@
         .border-primary\/20 { border-color: hsl(var(--primary) / 0.2); }
         .border-accent\/20 { border-color: hsl(var(--accent) / 0.2); }
 
+        /* Alper text color - keep #1e3a8a in both light and dark mode */
+        .alper-text { fill: #1e3a8a !important; }
+        [data-theme="dark"] .alper-text { fill: #4df5e3 !important; }
+
         /* Text colors for dark mode */
         .dark\:text-yellow-100:is(.dark) { color: #fef3c7; }
         .dark\:bg-yellow-900\/20:is(.dark) { background-color: rgb(146 64 14 / 0.2); }
@@ -662,12 +667,10 @@
                 <h1 class="text-3xl md:text-4xl font-bold mb-2 h1-highlight">
                     Günlük Hayatta Güç ve Enerji Kullanımı
                 </h1>
-                <p class="text-base text-muted-foreground">
-                    Aynı işi farklı sürede yapmanın güce etkisini keşfedin
-                </p>
+
             </header>
 
-            <div class="grid lg:grid-cols-4 gap-1 mb-1">
+            <div class="grid lg:grid-cols-4 gap-6 mb-1" style="gap: 20px;">
 			
 			
               <div class="lg:col-span-1">
@@ -812,9 +815,9 @@
                 <div class="lg:col-span-3">
                     <div class="card p-2">
                         <h2 class="text-lg font-semibold text-primary mb-3 text-center">🎯 Simülasyon</h2>
-                        <div id="animation-container" class="flex justify-center max-w-4xl mx-auto">
+                        <div id="animation-container" class="flex justify-center max-w-6xl mx-auto">
                     <div class="w-full bg-gradient-to-b from-sky-100 to-sky-50 rounded-lg p-6 relative overflow-hidden">
-                        <svg width="100%" height="500" viewBox="0 0 600 500" class="mx-auto">
+                        <svg width="100%" height="600" viewBox="0 0 720 500" class="mx-auto">
                             
                             
                     <g id="height-marker">
@@ -1017,7 +1020,7 @@
 <rect x="-5" y="-16" width="10" height="12" fill="#1e3a8a" rx="1"></rect>
                                 
                                 <!-- İsim - Aşağıda -->
-                                <text x="0" y="25" font-size="12" fill="#1e3a8a" text-anchor="middle" font-weight="bold">Alper</text>
+                                <text x="0" y="25" font-size="12" fill="#1e3a8a" text-anchor="middle" font-weight="bold" class="alper-text">Alper</text>
                             </g>
                         </svg>
                     </div>
@@ -1315,11 +1318,11 @@
                 `;
 
                 // === YENİ DÜZEN: Mobil viewBox ===
-                const viewBox = this.isMobile ? "80 0 370 500" : "0 0 600 500";
+                const viewBox = this.isMobile ? "80 0 450 600" : "0 0 720 500";
                 
                 const svg = `
                     <div class="w-full bg-gradient-to-b from-sky-100 to-sky-50 rounded-lg p-6 relative overflow-hidden">
-                        <svg width="100%" height="500" viewBox="${viewBox}" class="mx-auto">
+                        <svg width="100%" height="600" viewBox="${viewBox}" class="mx-auto">
                             
                             ${h_marker_svg}
 
@@ -1479,7 +1482,7 @@
                                 <rect x="2" y="12" width="3" height="2" fill="#2d3748" rx="0.5"></rect>
                                 
                                 <!-- İsim - Aşağıda -->
-                                <text x="0" y="25" font-size="12" fill="#1e3a8a" text-anchor="middle" font-weight="bold">Alper</text>
+                                <text x="0" y="25" font-size="12" fill="#1e3a8a" text-anchor="middle" font-weight="bold" class="alper-text">Alper</text>
                             </g>
                         </svg>
                     </div>
